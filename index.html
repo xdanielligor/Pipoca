@@ -2,92 +2,37 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Caixa de Pipocas</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff8f0;
-      color: #333;
-      padding: 20px;
-    }
-    h1 {
-      color: purple;
-    }
-    input, button {
-      padding: 10px;
-      margin: 5px 0;
-      width: 100%;
-    }
-    .resultado {
-      margin-top: 20px;
-      background: #eee;
-      padding: 10px;
-      border-radius: 8px;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caixa de Pipoca</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>&laquo;&laquo;&laquo;&laquo;&laquo; CAIXA ABERTO &raquo;&raquo;&raquo;&raquo;&raquo;</h1>
+  <div class="card">
+    <h1>CAIXA ABERTO</h1>
 
-  <label>Quantas pipocas:</label>
-  <input type="number" id="quantidade" placeholder="Digite a quantidade (999 para sair)">
+    <form id="pipocaForm">
+      <label for="quantidade">Quantas pipocas (999 para sair):</label>
+      <input type="number" id="quantidade" placeholder="Digite a quantidade" required>
+      <button type="submit" class="btn-ok">OK</button>
 
-  <label>Deseja marcar? [S/N]</label>
-  <input type="text" id="marcar" placeholder="S ou N">
+      <div class="marcar">
+        <p>Deseja marcar?</p>
+        <div class="opcoes">
+          <button type="button" class="marcar-btn" onclick="setMarcar('S')">S</button>
+          <button type="button" class="marcar-btn" onclick="setMarcar('N')">N</button>
+        </div>
+      </div>
 
-  <div id="nomeContainer" style="display:none;">
-    <label>Nome:</label>
-    <input type="text" id="nome" placeholder="Digite o nome">
+      <input type="text" id="nome" placeholder="Nome" disabled>
+    </form>
+
+    <div class="resultado" id="resultado">
+      <p><strong>Total vendido:</strong> <span id="totalPipocas">0</span> pipocas</p>
+      <p><strong>Valor total:</strong> R$ <span id="valorTotal">0,00</span></p>
+      <p><strong>Pessoas que marcaram:</strong> <span id="marcados">Nenhuma</span></p>
+    </div>
   </div>
 
-  <button onclick="adicionar()">Adicionar</button>
-  <button onclick="finalizar()">Finalizar</button>
-
-  <div class="resultado" id="resultado"></div>
-
-  <script>
-    let count = 0;
-    let total = 0;
-    let marcados = [];
-
-    function adicionar() {
-      let q = parseInt(document.getElementById("quantidade").value);
-      if (isNaN(q)) {
-        alert("Digite um número válido.");
-        return;
-      }
-      if (q === 999) {
-        finalizar();
-        return;
-      }
-
-      count += q;
-
-      let marcar = document.getElementById("marcar").value.trim().toUpperCase();
-      if (marcar === "S") {
-        document.getElementById("nomeContainer").style.display = "block";
-        let nome = document.getElementById("nome").value.trim();
-        if (nome) {
-          marcados.push(nome);
-          document.getElementById("nome").value = '';
-        }
-      } else {
-        document.getElementById("nomeContainer").style.display = "none";
-      }
-
-      document.getElementById("quantidade").value = '';
-      document.getElementById("marcar").value = '';
-    }
-
-    function finalizar() {
-      total = count * 8;
-      const resultado = document.getElementById("resultado");
-      resultado.innerHTML = `
-        <p><strong>Total vendido:</strong> ${count} pipocas</p>
-        <p><strong>Valor total:</strong> R$ ${total.toFixed(2)}</p>
-        <p><strong>Pessoas que marcaram:</strong> ${marcados.length ? marcados.join(', ') : 'Nenhuma'}</p>
-      `;
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
